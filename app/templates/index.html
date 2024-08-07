@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Forecasting</title>
+    <script>
+        async function getPrediction() {
+            const temperature = document.getElementById('temperature').value;
+            const humidity = document.getElementById('humidity').value;
+            const pressure = document.getElementById('pressure').value;
+            const wind_speed = document.getElementById('wind_speed').value;
+
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    temperature: temperature,
+                    humidity: humidity,
+                    pressure: pressure,
+                    wind_speed: wind_speed
+                })
+            });
+            
+            const result = await response.json();
+            document.getElementById('result').innerText = `Prediction: ${result.prediction}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Weather Forecasting</h1>
+    <label for="temperature">Temperature:</label>
+    <input type="number" id="temperature" name="temperature"><br>
+    <label for="humidity">Humidity:</label>
+    <input type="number" id="humidity" name="humidity"><br>
+    <label for="pressure">Pressure:</label>
+    <input type="number" id="pressure" name="pressure"><br>
+    <label for="wind_speed">Wind Speed:</label>
+    <input type="number" id="wind_speed" name="wind_speed"><br>
+    <button onclick="getPrediction()">Get Prediction</button>
+    <p id="result"></p>
+</body>
+</html>
